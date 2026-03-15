@@ -57,3 +57,71 @@ The resulting volume provides the Coronal and Sagittal views that weren't previo
 
 `make_task1_csv.py` and `make_task2_csv.py` generates CSVs for indexing the volumes and labels for fast implementation.
 
+## 3D ResNet-18 (R3D-18) Approach
+
+### Architecture
+We implemented a 3D ResNet-18 model adapted for single-channel CT scan input:
+- **Backbone**: Pretrained R3D-18 with modified first convolution layer (3→1 channels)
+- **Input**: 128×128×128 volumetric CT scans
+- **Output**: Multi-class classification head
+
+### Training Strategy
+
+#### Two-Stage Training Pipeline
+
+**Stage 1: Domain Pretraining with VRE**
+- **Objective**: Variance Risk Extrapolation (VRE) for domain generalization
+- **Loss**: Cross-Entropy + λ×variance(per-domain losses)
+- **Targets**: Source domain labels (gender for Task 2, data source for Task 1)
+- **Duration**: 5 epochs
+- **Learning Rate**: 1e-4 with Cosine Annealing
+
+**Stage 2: Task-Specific Fine-tuning**
+- **Objective**: Supervised classification with contrastive learning
+- **Augmentation**: MixUp (α=0.4) for improved generalization
+- **Loss**: Cross-Entropy + Supervised Contrastive Loss
+- **Duration**: 20 epochs
+- **Learning Rate**: 1e-5 with Cosine Annealing
+
+#### Key Techniques
+- **MixUp Data Augmentation**: Blends samples and labels for robustness
+- **Supervised Contrastive Learning**: Enhances feature separation
+- **Gradient Accumulation**: Enables effective training with limited memory
+- **AMP (Automatic Mixed Precision)**: Accelerates training
+
+### Results
+
+#### Task 1: COVID-19 Detection (Binary Classification)
+- **Validation Accuracy**: 87.01%
+- **Macro F1-Score**: 0.7648
+- **Per-Source Performance**:
+  - Source 0: F1=0.8630
+  - Source 1: F1=0.8408
+  - Source 2: F1=0.4828
+  - Source 3: F1=0.8725
+
+#### Task 2: Multi-Class Classification (A, G, COVID, Normal)
+- **Validation Accuracy**: 76.77%
+- **Macro F1-Score**: 0.66.77
+- **Per-Gender Performance**:
+  - Male: F1=0.7249
+  - Female: F1=0.6104
+
+#### Class-wise Performance (Task 2)
+- **Class A**: Precision=0.6901, Recall=0.9800, F1=0.8099
+- **Class G**: Precision=0.7500, Recall=0.1200, F1=0.2069
+- **COVID**: Precision=0.8462, Recall=0.8250, F1=0.8354
+- **Normal**: Precision=0.8293, Recall=0.8500, F1=0.8395
+
+### Analysis
+- The VRE pretraining significantly improved cross-domain generalization
+- MixUp augmentation enhanced robustness to domain shifts
+- Strong performance on COVID detection but challenges with Class G (Ground Glass) classification
+- Gender bias observed in Task 2, with better performance on male scans
+
+### Technical Implementation
+- **Framework**: PyTorch with torchvision.models.video.r3d_18
+- **Hardware**: GPU training with CUDA AMP acceleration
+- **Batch Size**: 32 samples per batch
+- **Optimization**: AdamW optimizer with weight decay 1e-5
+

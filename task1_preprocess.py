@@ -128,6 +128,9 @@ def convert_all_scans_to_numpy(input_root, output_root, target_shape=(128, 128, 
         # Full path for the .npy file, named after the scan folder
         out_path = os.path.join(out_dir, f"{scan_name}.npy")
 
+        if os.path.exists(out_path):
+            continue
+        
         volume_np = jpeg_folder_to_numpy(dirpath, target_shape=target_shape)
         np.save(out_path, volume_np)
 
@@ -156,7 +159,4 @@ if __name__ == "__main__":
     for folder in folders:
         input_root = folder
         output_root = f"{folder}_npy"
-        if os.path.exists(output_root):
-            print(f"Skipping {folder} as it already exists")
-            continue
         convert_all_scans_to_numpy(input_root, output_root, target_shape=(128, 128, 128))
