@@ -1,5 +1,8 @@
 # PHAROS-AIF-MIH
 
+## Abstract
+We propose an approach for COVID-19 detection and severity assessment from chest CT scans. Our method leverages both 2.5D and 3D representations to capture both local and global patterns in the data. The 2.5D approach uses multiview slices of a CT scan and uses a DINOv3 backbone for feature extraction and downstream training. The 3D approach uses the 3D ResNet-18 model to learn feature representations using a Variance Risk Extrapolation pretraining and contrastive supervised finetuning. Benchmarking on datasets focused on multi-source robustness and gender bias, we present an ensemble of both approaches - reaching a MacroF1 score of [insert value here].
+
 ## Dataset file structure
 
 Unzip the competition datasets and place them in this structure below:
