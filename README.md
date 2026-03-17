@@ -140,3 +140,16 @@ Predictions from the 2.5D and 3D models are combined using logit-level averaging
 | Task | Accuracy | Macro F1 |
 |---|---|---|
 | Task 1 (COVID detection) | 95.13% | 0.8321 |
+
+## If our work is useful, please cite us!
+```bibtex
+@misc{yang2026halfway3densembling25d,
+      title={Halfway to 3D: Ensembling 2.5D and 3D Models for Robust COVID-19 CT Diagnosis}, 
+      author={Tuan-Anh Yang and Bao V. Q. Bui and Chanh-Quang Vo-Van and Truong-Son Hy},
+      year={2026},
+      eprint={2603.14832},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2603.14832}, 
+}
+```
