@@ -1,7 +1,9 @@
 # PHAROS-AIF-MIH
 
 ## Abstract
-We present a deep learning framework for COVID-19 detection and disease classification from chest CT scans using both 2.5D and 3D representations. The 2.5D branch extracts multi-view slice features (axial, coronal, sagittal) using a DINOv3 vision transformer, while the 3D branch uses a ResNet-18 architecture to model volumetric context. The 3D model is pretrained with Variance Risk Extrapolation (VREx) and further refined using supervised contrastive learning to improve cross-source robustness. Predictions from both branches are combined using logit-level ensembling. On the PHAROS-AIF-MIH benchmark, the ensemble achieves 95.13% accuracy and 0.8321 Macro F1 for COVID-19 detection. For multi-class disease classification, the 2.5D DINOv3 model achieves the best performance with 76.77% accuracy and 0.7230 Macro F1. These results highlight the benefits of combining pretrained slice-based representations with volumetric modeling for multi-source medical imaging analysis.
+We propose a deep learning framework for COVID-19 detection and disease classification from chest CT scans that integrates both 2.5D and 3D representations to capture complementary slice-level and volumetric information. The 2.5D branch processes multi-view CT slices (axial, coronal, sagittal) using a DINOv3 vision transformer, while the 3D branch employs a ResNet-18 architecture pretrained with Variance Risk Extrapolation (VREx) and further refined with supervised contrastive learning to improve cross-source robustness. Predictions from both branches are combined via logit-level ensembling. 
+
+Experiments on the PHAROS-AIF-MIH benchmark demonstrate the effectiveness of the proposed approach. On the test set, our method achieved runner-up in the Multi-Source COVID-19 Detection Challenge, with the best ensemble reaching a Macro F1-score of 0.751. For the Fair Disease Diagnosis Challenge, our approach ranked third place, achieving a best Macro F1-score of 0.633 with improved performance balance across genders. These results highlight the benefits of combining pretrained slice-based representations with volumetric modeling, as well as the importance of ensemble strategies for improving robustness and fairness in multi-source medical imaging tasks.
 
 Repository: https://github.com/HySonLab/PHAROS-AIF-MIH
 
@@ -140,6 +142,28 @@ Predictions from the 2.5D and 3D models are combined using logit-level averaging
 | Task | Accuracy | Macro F1 |
 |---|---|---|
 | Task 1 (COVID detection) | 95.13% | 0.8321 |
+
+## Test set results
+
+### Multi-Source COVID-19 Detection (Task 1)
+
+| Method         | Macro F1  | H1        | H2        | H3    | H4    |
+| -------------- | --------- | --------- | --------- | ----- | ----- |
+| 2.5D           | 0.741     | 0.910     | 0.691     | 0.493 | 0.869 |
+| 3D             | 0.699     | 0.825     | 0.608     | 0.495 | 0.868 |
+| Ensemble (0.3) | 0.739     | 0.895     | 0.673     | 0.496 | 0.892 |
+| Ensemble (0.5) | **0.751** | **0.914** | **0.712** | 0.495 | 0.883 |
+| Ensemble (0.7) | 0.744     | 0.912     | 0.696     | 0.495 | 0.873 |
+
+### Fair Disease Diagnosis (Task 2)
+
+| Method         | Macro F1  | Female    | Male      |
+| -------------- | --------- | --------- | --------- |
+| 2.5D           | 0.555     | 0.709     | 0.402     |
+| 3D             | 0.572     | **0.756** | 0.388     |
+| Ensemble (0.3) | 0.568     | 0.732     | 0.403     |
+| Ensemble (0.5) | 0.561     | 0.718     | 0.403     |
+| Ensemble (0.7) | **0.633** | 0.709     | **0.557** |
 
 ## If our work is useful, please cite us!
 ```bibtex
