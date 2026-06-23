@@ -167,13 +167,11 @@ Predictions from the 2.5D and 3D models are combined using logit-level averaging
 
 ## If our work is useful, please cite us!
 ```bibtex
-@misc{yang2026halfway3densembling25d,
-      title={Halfway to 3D: Ensembling 2.5D and 3D Models for Robust COVID-19 CT Diagnosis}, 
-      author={Tuan-Anh Yang and Bao V. Q. Bui and Chanh-Quang Vo-Van and Truong-Son Hy},
-      year={2026},
-      eprint={2603.14832},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2603.14832}, 
+@inproceedings{yang2026halfway,
+  title={Halfway to 3d: Ensembling 2.5 d and 3d models for robust covid-19 ct diagnosis},
+  author={Yang, Tuan-Anh and Bui, Bao VQ and Vo-Van, Chanh-Quang and Hy, Truong-Son},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={6459--6465},
+  year={2026}
 }
 ```
